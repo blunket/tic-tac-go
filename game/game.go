@@ -5,8 +5,8 @@ import (
 )
 
 type Game struct {
-	Grid grid.Grid
-	Turn int
+	Board grid.Grid
+	Turn  int
 }
 
 func New(turn int) Game {
@@ -20,7 +20,7 @@ func (g *Game) Place(p, x, y int) bool {
 		return false
 	}
 
-	sq := g.Grid.Place(p, x, y)
+	sq := g.Board.Place(p, x, y)
 	if sq == false {
 		return false
 	}
