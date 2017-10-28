@@ -1,3 +1,4 @@
+// Package grid provides a Tic-Tac-Toe grid with which to interact.
 package grid
 
 type Grid [9]int

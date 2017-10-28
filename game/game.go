@@ -1,3 +1,4 @@
+// Package game provides a Tic-Tac-Toe game controller.
 package game
 
 import (
@@ -9,12 +10,16 @@ type Game struct {
 	Turn  int
 }
 
-func New(turn int) Game {
+// New creates a new Game, and the provided player goes first.
+func New(p int) Game {
 	return Game{
-		Turn: turn,
+		Turn: p,
 	}
 }
 
+// Place sets a square at x,y on a grid to p if the square is open.
+// It must be the player's turn.
+// Returns whether successful.
 func (g *Game) Place(p, x, y int) bool {
 	if g.Turn != p {
 		return false
