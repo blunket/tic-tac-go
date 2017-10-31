@@ -1,46 +1,38 @@
 package main
 
 import (
-	"bufio"
+	"fmt"
 	"log"
-	"net"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 	// "github.com/blunket/tic-tac-go/game"
 )
 
 const (
 	CONN_HOST = "localhost"
 	CONN_PORT = "54321"
-	CONN_TYPE = "tcp"
 )
 
 func main() {
 
-	ln, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
-	defer ln.Close()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("Listening on %s:%s", CONN_HOST, CONN_PORT)
+	r := httprouter.New()
 
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			break
-		}
-		go handleConn(conn)
-	}
+	r.GET("/new", NewGame)
+
+	r.GET("/grid", Grid)
+
+	log.Printf("Listening on %s:%s\n", CONN_HOST, CONN_PORT)
+	log.Fatalln(http.ListenAndServe(CONN_HOST+":"+CONN_PORT, r))
+
 }
 
-func handleConn(conn net.Conn) {
+func Grid(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "Hello, world!")
+	log.Println("/grid")
+}
 
-	defer conn.Close()
-	for {
-		msg, err := bufio.NewReader(conn).ReadString('\n')
-		if err != nil {
-			break
-		}
-		conn.Write([]byte("Received message: " + msg + "\n"))
-		log.Println(msg)
-	}
-
+func NewGame(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "New game!")
+	log.Println("/new")
 }
