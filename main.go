@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	CONN_HOST = "localhost"
-	CONN_PORT = "54321"
+	connHost = "localhost"
+	connPort = "54321"
 )
 
 func main() {
@@ -19,20 +19,19 @@ func main() {
 	r := httprouter.New()
 
 	r.GET("/new", NewGame)
-
 	r.GET("/grid", Grid)
 
-	log.Printf("Listening on %s:%s\n", CONN_HOST, CONN_PORT)
-	log.Fatalln(http.ListenAndServe(CONN_HOST+":"+CONN_PORT, r))
+	log.Printf("Listening on %s:%s\n", connHost, connPort)
+	log.Fatalln(http.ListenAndServe(connHost+":"+connPort, r))
 
 }
 
-func Grid(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func grid(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprint(w, "Hello, world!")
 	log.Println("/grid")
 }
 
-func NewGame(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func newGame(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprint(w, "New game!")
 	log.Println("/new")
 }
